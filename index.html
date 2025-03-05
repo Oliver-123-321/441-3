@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Family Table</h1>
+
+<table id="familyTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Family records will be inserted here -->
+    </tbody>
+</table>
+
+<script>
+    // Function to load family records from external JSON file and display them in the table
+    async function loadFamilyRecords() {
+        try {
+            const response = await fetch('family.json'); // Load data from the external JSON file
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const records = await response.json(); // Parse JSON data
+
+            const tbody = document.querySelector('#familyTable tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            if (records && records.length > 0) {
+                records.forEach(record => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${record.name}</td>
+                        <td>${record.email}</td>
+                        <td>${record.phone}</td>
+                        <td>${record.role}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4">No family records found.</td>`;
+                tbody.appendChild(row);
+            }
+        } catch (error) {
+            console.error("Error loading family records:", error);
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="4">Error loading family records. Please check the file path and content.</td>`;
+            document.querySelector('#familyTable tbody').appendChild(row);
+        }
+    }
+
+    // Load family records when the page loads
+    window.onload = function() {
+        loadFamilyRecords();
+    }; 
+</script>
+
+</body>
+</html>
