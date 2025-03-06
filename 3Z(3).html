@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Diary Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .entry {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            position: relative;
+        }
+        .entry p {
+            margin: 0;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .delete-btn:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>My Diary</h1>
+
+    <div>
+        <label for="content">Write your diary entry:</label>
+        <textarea id="content" rows="5" placeholder="Write your diary entry here..."></textarea>
+    </div>
+
+    <button onclick="saveEntry()">Save Entry</button>
+    <button onclick="clearEntries()">Clear All</button>
+
+    <h2>Diary Entries</h2>
+    <div id="entries"></div>
+</div>
+
+<script>
+    // Load existing entries when the page loads
+    window.onload = function() {
+        loadEntries();
+    };
+
+    // Function to save a new diary entry
+    function saveEntry() {
+        const content = document.getElementById('content').value;
+
+        if (!content) {
+            alert("Please write something in the diary.");
+            return;
+        }
+
+        const entry = {
+            content: content,
+            timestamp: new Date().toLocaleString()
+        };
+
+        // Load existing entries
+        let entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+        entries.push(entry);
+        localStorage.setItem('diaryEntries', JSON.stringify(entries));
+
+        loadEntries();
+        document.getElementById('content').value = ''; // Clear the textarea after saving
+    }
+
+    // Function to load and display diary entries
+    function loadEntries() {
+        const entriesDiv = document.getElementById('entries');
+        entriesDiv.innerHTML = '';
+
+        const entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+        entries.forEach((entry, index) => {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'entry';
+            entryDiv.innerHTML = `
+                <p>${entry.content}</p>
+                <small>Written on: ${entry.timestamp}</small>
+                <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+            `;
+            entriesDiv.appendChild(entryDiv);
+        });
+    }
+
+    // Function to delete a specific entry
+    function deleteEntry(index) {
+        if (confirm("Are you sure you want to delete this entry?")) {
+            let entries = JSON.parse(localStorage.getItem('diaryEntries')) || [];
+            entries.splice(index, 1); // Remove the entry at the specified index
+            localStorage.setItem('diaryEntries', JSON.stringify(entries));
+            loadEntries(); // Refresh the entries display
+        }
+    }
+
+    // Function to clear all diary entries
+    function clearEntries() {
+        if (confirm("Are you sure you want to clear all entries?")) {
+            localStorage.removeItem('diaryEntries');
+            loadEntries();
+        }
+    }
+</script>
+
+</body>
+</html>

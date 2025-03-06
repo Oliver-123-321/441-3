@@ -1,0 +1,44 @@
+[
+    {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "phone": "123-456-7890",
+        "role": "Father"
+    },
+    {
+        "name": "Jane Doe",
+        "email": "jane.doe@example.com",
+        "phone": "098-765-4321",
+        "role": "Mother"
+    },
+    {
+        "name": "Jimmy Doe",
+        "email": "jimmy.doe@example.com",
+        "phone": "555-555-5555",
+        "role": "Son"
+    },
+    {
+        "name": "Emily Doe",
+        "email": "emily.doe@example.com",
+        "phone": "111-222-3333",
+        "role": "Daughter"
+    },
+    {
+        "name": "Michael Doe",
+        "email": "michael.doe@example.com",
+        "phone": "444-444-4444",
+        "role": "Uncle"
+    },
+    {
+        "name": "Sarah Doe",
+        "email": "sarah.doe@example.com",
+        "phone": "777-777-7777",
+        "role": "Aunt"
+    },
+    {
+        "name": "Oliver",
+        "email": "alex.doe@example.com",
+        "phone": "999-999-9999",
+        "role": "Yourself"
+    }
+]
